@@ -191,6 +191,34 @@ namespace InputSystem
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Ui"",
+            ""id"": ""03ed6653-1358-4911-a26f-b8bff29e7e43"",
+            ""actions"": [
+                {
+                    ""name"": ""dialogue-transition"",
+                    ""type"": ""Button"",
+                    ""id"": ""baedac76-97d1-461e-b681-434cb0beb6c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a1f98476-68b1-4a2a-8031-81227c3ca391"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""dialogue-transition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -200,6 +228,9 @@ namespace InputSystem
             m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
             m_Player_MeleeAttackLight = m_Player.FindAction("MeleeAttack-Light", throwIfNotFound: true);
             m_Player_MeleeAttackHeavy = m_Player.FindAction("MeleeAttack-Heavy", throwIfNotFound: true);
+            // Ui
+            m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
+            m_Ui_dialoguetransition = m_Ui.FindAction("dialogue-transition", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -304,11 +335,48 @@ namespace InputSystem
             }
         }
         public PlayerActions @Player => new PlayerActions(this);
+
+        // Ui
+        private readonly InputActionMap m_Ui;
+        private IUiActions m_UiActionsCallbackInterface;
+        private readonly InputAction m_Ui_dialoguetransition;
+        public struct UiActions
+        {
+            private @InputActions m_Wrapper;
+            public UiActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @dialoguetransition => m_Wrapper.m_Ui_dialoguetransition;
+            public InputActionMap Get() { return m_Wrapper.m_Ui; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(UiActions set) { return set.Get(); }
+            public void SetCallbacks(IUiActions instance)
+            {
+                if (m_Wrapper.m_UiActionsCallbackInterface != null)
+                {
+                    @dialoguetransition.started -= m_Wrapper.m_UiActionsCallbackInterface.OnDialoguetransition;
+                    @dialoguetransition.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnDialoguetransition;
+                    @dialoguetransition.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnDialoguetransition;
+                }
+                m_Wrapper.m_UiActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @dialoguetransition.started += instance.OnDialoguetransition;
+                    @dialoguetransition.performed += instance.OnDialoguetransition;
+                    @dialoguetransition.canceled += instance.OnDialoguetransition;
+                }
+            }
+        }
+        public UiActions @Ui => new UiActions(this);
         public interface IPlayerActions
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnMeleeAttackLight(InputAction.CallbackContext context);
             void OnMeleeAttackHeavy(InputAction.CallbackContext context);
+        }
+        public interface IUiActions
+        {
+            void OnDialoguetransition(InputAction.CallbackContext context);
         }
     }
 }
