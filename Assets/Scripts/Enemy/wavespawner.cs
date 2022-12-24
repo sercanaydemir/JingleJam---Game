@@ -47,7 +47,7 @@ public class wavespawner : MonoBehaviour
                currentwavenumber += 1;
             }          
         }
-        if (enemyspawntime <= 0)
+        if (enemyspawntime <= 0 && currentwave.numberofenemies > 0)
         {
             enemyspawntime = currentwave.spawnInterval;
             index1 = -2;

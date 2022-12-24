@@ -18,9 +18,10 @@ public class enemycontroller : enemystats
     GameObject player;
     float i = 5f;
     private float currentattacktime = 1f;
-
+    
     private void Awake()
     {
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         enemynav = this.GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         enemynav.destination = player.transform.position;
