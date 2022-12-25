@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Character;
+using DefaultNamespace;
 using UnityEngine;
 
 
@@ -40,11 +42,12 @@ public class wavespawner : MonoBehaviour
     private void spawnvawe()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
-        if (currentwave.numberofenemies == 0)
+        if (currentwave.numberofenemies <= 0)
         {
             if (enemies.Length == 0)
             {
-               currentwavenumber += 1;
+                FindObjectOfType<PlayerController>().RegenerateHealth();
+                currentwavenumber += 1; 
             }          
         }
         if (enemyspawntime <= 0 && currentwave.numberofenemies > 0)

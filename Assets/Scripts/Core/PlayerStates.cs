@@ -3,6 +3,7 @@
     public enum PlayerStates
     {
         FreeLookMovement,
-        Attack
+        Attack,
+        Dead
     }
 }

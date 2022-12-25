@@ -29,5 +29,23 @@ namespace DefaultNamespace
         {
             OnHitBoxUpdate?.Invoke();
         }
+        
+        public delegate void HealthBar(float value);
+
+        public static event HealthBar OnHealthChanged;
+
+        public void HealthChanged(float value)
+        {
+            OnHealthChanged?.Invoke(value);
+        }
+
+        public delegate void Text(string text);
+
+        public static event Text OnSetText;
+
+        public void SetNotifText(string t)
+        {
+            OnSetText?.Invoke(t);
+        }
     }
 }

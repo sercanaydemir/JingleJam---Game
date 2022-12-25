@@ -22,7 +22,7 @@ namespace Character
         private InputReader _inputReader;
         private CharacterController _characterController;
         private AnimationController _animationController;
-
+        private RagdollController _ragdollController;
         private PlayerStates _currentState;
         private AttackState _attackState;
         
@@ -32,11 +32,13 @@ namespace Character
             _characterController = GetComponentInChildren<CharacterController>();
             _animationController = new AnimationController(GetComponentInChildren<Animator>());
             _attackState = new AttackState(_animationController);
+            _ragdollController = GetComponentInChildren<RagdollController>();
         }
 
         private void Start()
         {
             InvokeRepeating(nameof(CheckPlayerFov),1,0.25f);
+            EventManager.Instance.HealthChanged(Health);
         }
 
         private void OnEnable()
@@ -51,6 +53,8 @@ namespace Character
 
         private void FixedUpdate()
         {
+            if(_currentState == PlayerStates.Dead) return;
+            
             _movementVector = new Vector3(_inputReader.MovementVector.x, 0, _inputReader.MovementVector.y);
             SimpleMovement();
         }
@@ -111,6 +115,9 @@ namespace Character
                     _inputReader.meleeAttackLight += _attackState.MeleeLight;
                     _animationController.SetTrigger("attack");
                     break;
+                case PlayerStates.Dead:
+                    _inputReader.meleeAttackLight -= _attackState.MeleeLight;
+                    break;
             }
             
             
@@ -151,10 +158,8 @@ namespace Character
             
             if (c.Length > 0)
             {
-                Debug.LogError("HitCollider: " + c[0].transform.name);
                 IDamagable d = c[0].GetComponent<IDamagable>();
                 
-                Debug.LogError("Damagable: " + d);
                 if(d != null)
                     EventManager.Instance.Damaged(d);
             }
@@ -164,14 +169,18 @@ namespace Character
         public void ChangeHealth(float value)
         {
             Health -= value;
-            Debug.LogError("PlayerHealth: " + Health);
+            EventManager.Instance.HealthChanged(Health);
             if (Health <= 0)
                 Dead();
         }
 
         private void Dead()
         {
-            Debug.LogError("PlayerDead");
+            _ragdollController.ActivateRagdoll();
+            _currentState = PlayerStates.Dead;
+            CheckState();
+            
+            EventManager.Instance.SetNotifText("GG Boy!");
         }
 
         public void Damage(IDamagable damagable,float value)
@@ -180,6 +189,21 @@ namespace Character
             {
                 ChangeHealth(value);
             }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("CenterArea"))
+            {
+                EventManager.Instance.SetNotifText("Defend The Damacana!");
+            }
+        }
+
+        public void RegenerateHealth()
+        {
+            Health = 100;
+            
+            EventManager.Instance.HealthChanged(Health);
         }
     }
 }

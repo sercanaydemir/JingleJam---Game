@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 public class enemyhealth : MonoBehaviour
@@ -20,14 +21,17 @@ public class enemyhealth : MonoBehaviour
         {
 
             enemyanim.SetBool("death", true);
-            enemyanim.ResetTrigger("attack");
-            enemyanim.ResetTrigger("walk");
-            enemyanim.ResetTrigger("hit");
-
             GetComponent<enemycontroller>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             enabled = false;
+            
+            Passive();
         }
+    }
+
+    void Passive()
+    {
+        Destroy(gameObject,3);
     }
     public void takedamage(float amount)
     {

@@ -32,7 +32,6 @@ public abstract class enemystats : MonoBehaviour, IDamagable,IHealth
     {
         if (ReferenceEquals(damagable, this))
         {
-            Debug.LogError("Damaged: " + transform.name);
             ChangeHealth(Health);
         }
     }
@@ -70,7 +69,6 @@ public class enemycontroller : enemystats
 
     protected override void Death()
     {
-        Debug.LogError("IsDead?: " + transform.name);
         _enemyhealth.enemydeath();
     }
 
