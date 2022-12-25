@@ -28,7 +28,7 @@ public abstract class enemystats : MonoBehaviour, IDamagable,IHealth
         EventManager.OnDamage -= Damage;
     }
 
-    public void Damage(IDamagable damagable)
+    public void Damage(IDamagable damagable,float value)
     {
         if (ReferenceEquals(damagable, this))
         {

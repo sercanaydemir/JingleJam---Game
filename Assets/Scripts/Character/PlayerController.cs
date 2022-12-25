@@ -3,11 +3,13 @@ using Animations;
 using Core;
 using DefaultNamespace;
 using InputSystem;
+using Interfaces;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 namespace Character
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IHealth,IDamagable
     {
         [SerializeField] private float speed;
         [SerializeField] private float rotationDamping;
@@ -157,6 +159,27 @@ namespace Character
                     EventManager.Instance.Damaged(d);
             }
         }
-        
+
+        [field: SerializeField] public float Health { get; set; }
+        public void ChangeHealth(float value)
+        {
+            Health -= value;
+            Debug.LogError("PlayerHealth: " + Health);
+            if (Health <= 0)
+                Dead();
+        }
+
+        private void Dead()
+        {
+            Debug.LogError("PlayerDead");
+        }
+
+        public void Damage(IDamagable damagable,float value)
+        {
+            if (ReferenceEquals(damagable, this))
+            {
+                ChangeHealth(value);
+            }
+        }
     }
 }

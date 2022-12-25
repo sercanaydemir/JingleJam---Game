@@ -729,7 +729,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3.5
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  attackrange: 1.4
+  attackrange: 3
   attackrate: 1
   turnspeed: 20
 --- !u!136 &-8253077265664714987
@@ -1001,6 +1001,8 @@ GameObject:
   - component: {fileID: 8741024140913035761}
   - component: {fileID: 8747572708182466415}
   - component: {fileID: 5437230988941625421}
+  - component: {fileID: 2111052780333398595}
+  - component: {fileID: 3835743107209992807}
   m_Layer: 6
   m_Name: SWORD
   m_TagString: Untagged
@@ -1082,10 +1084,39 @@ BoxCollider:
   m_GameObject: {fileID: 8733395774169785387}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.565696, y: 3.4625628, z: 4.5810323}
+  m_Size: {x: 1, y: 0.75, z: 3}
   m_Center: {x: 0.057424117, y: 0.12872386, z: 1.6473361}
+--- !u!114 &2111052780333398595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8733395774169785387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7940edd8fdb70f14ca77d9d681071d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+--- !u!54 &3835743107209992807
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8733395774169785387}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8733411095598537301
 GameObject:
   m_ObjectHideFlags: 0

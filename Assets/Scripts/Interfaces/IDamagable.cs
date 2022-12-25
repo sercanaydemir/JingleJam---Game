@@ -2,6 +2,6 @@
 {
     public interface IDamagable
     {
-        void Damage(IDamagable damagable);
+        void Damage(IDamagable damagable,float value);
     }
 }

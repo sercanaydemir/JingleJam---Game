@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class enemysworddamage : MonoBehaviour
@@ -13,7 +14,11 @@ public class enemysworddamage : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<playerhealth>().currenthealth -= damage;
+            IDamagable id = other.GetComponent<IDamagable>();
+            if (id != null)
+            {
+                id.Damage(id,damage);
+            }
         }
     }
 }

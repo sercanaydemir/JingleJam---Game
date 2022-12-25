@@ -13,12 +13,12 @@ namespace DefaultNamespace
             else Destroy(this);
         }
 
-        public delegate void Damage(IDamagable damagable);
+        public delegate void Damage(IDamagable damagable,float value);
         public static event Damage OnDamage;
 
-        public void Damaged(IDamagable iDamagable)
+        public void Damaged(IDamagable iDamagable,float value =0)
         {
-            OnDamage?.Invoke(iDamagable);
+            OnDamage?.Invoke(iDamagable,value);
         }
 
         public delegate void HitBox();
