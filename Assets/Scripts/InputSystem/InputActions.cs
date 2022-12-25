@@ -40,12 +40,12 @@ namespace InputSystem
                 },
                 {
                     ""name"": ""MeleeAttack-Light"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a3bcb211-1539-4f20-b01a-e89d68239dac"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""SlowTap"",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""MeleeAttack-Heavy"",
@@ -172,7 +172,7 @@ namespace InputSystem
                     ""name"": """",
                     ""id"": ""a31116c9-9f0f-4b26-90f9-66c8c4effa00"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Tap(duration=0.05)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MeleeAttack-Light"",

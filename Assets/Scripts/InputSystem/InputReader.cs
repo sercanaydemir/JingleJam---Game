@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,7 @@ namespace InputSystem
 
         public Action meleeAttackLight;
         public Action meleeAttackHeavy;
+
         public InputReader()
         {
             _inputActions = new InputActions();

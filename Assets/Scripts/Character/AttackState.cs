@@ -1,4 +1,6 @@
-﻿using Animations;
+﻿using System;
+using System.Collections.Generic;
+using Animations;
 using UnityEngine;
 
 namespace Character
@@ -6,7 +8,8 @@ namespace Character
     public class AttackState
     {
         private AnimationController _animationController;
-        
+
+
         public AttackState(AnimationController animationController)
         {
             _animationController = animationController;
@@ -14,14 +17,15 @@ namespace Character
 
         public void MeleeLight()
         {
-            _animationController.SetTrigger("melee");
+            _animationController.SetBool("melee", true);
         }
-        
+
         public void MeleeHeavy()
         {
-            
+
         }
-        
-        
+
+
     }
+
 }

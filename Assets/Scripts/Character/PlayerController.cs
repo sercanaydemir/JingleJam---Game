@@ -1,6 +1,7 @@
 ﻿using System;
 using Animations;
 using Core;
+using DefaultNamespace;
 using InputSystem;
 using UnityEngine;
 
@@ -34,6 +35,16 @@ namespace Character
         private void Start()
         {
             InvokeRepeating(nameof(CheckPlayerFov),1,0.25f);
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnHitBoxUpdate += HitBoxActive;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnHitBoxUpdate += HitBoxActive;
         }
 
         private void FixedUpdate()
@@ -108,13 +119,44 @@ namespace Character
 
         private void OnDrawGizmos()
         {
-            if (r == 0) return;
-            
-            Gizmos.color = Color.red;
-            
-            Gizmos.DrawWireSphere(transform.position,r);
+            if (r > 0)
+            {
+
+                Gizmos.color = Color.red;
+
+                Gizmos.DrawWireSphere(transform.position, r);
+            }
+
+            if (swordCenter != null)
+            {
+                Gizmos.color = Color.yellow;
+                
+                Gizmos.DrawWireCube(swordCenter.position,size);
+            }
         }
 
         #endregion
+
+        [Header("Sword & HitBox")] 
+        public Transform swordCenter;
+
+        public LayerMask enemyLayer;
+        public Vector3 size;
+        public Vector3 rotation;
+        void HitBoxActive()
+        {
+            Collider[] c = Physics.OverlapBox(swordCenter.position, size,Quaternion.Euler(swordCenter.eulerAngles),layer);
+            
+            if (c.Length > 0)
+            {
+                Debug.LogError("HitCollider: " + c[0].transform.name);
+                IDamagable d = c[0].GetComponent<IDamagable>();
+                
+                Debug.LogError("Damagable: " + d);
+                if(d != null)
+                    EventManager.Instance.Damaged(d);
+            }
+        }
+        
     }
 }
