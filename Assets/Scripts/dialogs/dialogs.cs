@@ -17,8 +17,9 @@ public class dialogs : MonoBehaviour
     bool cantransition;
     public Image noelbaba;
     public Image büyücü;
+    public TextMeshProUGUI spaceebas;
     private void Awake()
-    {
+    { 
         rd = new InputReader();
 
     }
@@ -127,7 +128,7 @@ public class dialogs : MonoBehaviour
         }
         if (textcomponent.text == lines[index])
         {
-
+            spaceebas.gameObject.SetActive(false);
             nextline();
         }
         else
